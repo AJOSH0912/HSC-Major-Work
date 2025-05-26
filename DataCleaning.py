@@ -14,6 +14,8 @@ def get_store_data(league: str) -> None:
 
     fbref = sd.FBref(leagues=league, seasons=2425)
 
+
+# Asigns the different data to a variable and turns it into a csv file so I can see the data clearly
     team_season_stats_standard = fbref.read_team_season_stats(stat_type="standard")
     team_season_stats_standard.to_csv((league + 'standard.csv') , index=True)
     team_season_stats_passing = fbref.read_team_season_stats(stat_type="passing")
