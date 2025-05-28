@@ -1,23 +1,22 @@
-,,,players_used,90s,Tackles,Tackles,Tackles,Tackles,Tackles,Challenges,Challenges,Challenges,Challenges,Blocks,Blocks,Blocks,Int,Tkl+Int,Clr,Err,url
-,,,,,Tkl,TklW,Def 3rd,Mid 3rd,Att 3rd,Tkl,Att,Tkl%,Lost,Blocks,Sh,Pass,,,,,
-league,season,team,,,,,,,,,,,,,,,,,,,
-ENG-Premier League,2425,Arsenal,25,37,580,344,218,241,121,253,494,51.2,241,319,103,216,223,803,655,32,/en/squads/18bb7c10/Arsenal-Stats
-ENG-Premier League,2425,Aston Villa,28,37,628,367,290,248,90,304,540,56.3,236,321,105,216,234,862,767,42,/en/squads/8602292d/Aston-Villa-Stats
-ENG-Premier League,2425,Bournemouth,29,36,666,385,282,285,99,292,610,47.9,318,442,134,308,339,1005,978,21,/en/squads/4ba7cbea/Bournemouth-Stats
-ENG-Premier League,2425,Brentford,28,37,610,367,277,217,116,301,569,52.9,268,471,195,276,279,889,1015,27,/en/squads/cd051869/Brentford-Stats
-ENG-Premier League,2425,Brighton,32,37,687,415,284,285,118,343,692,49.6,349,427,121,306,308,995,754,29,/en/squads/d07537b9/Brighton-and-Hove-Albion-Stats
-ENG-Premier League,2425,Chelsea,29,37,573,361,237,239,97,266,527,50.5,261,349,100,249,268,841,657,44,/en/squads/cff3d9bb/Chelsea-Stats
-ENG-Premier League,2425,Crystal Palace,29,36,726,427,353,283,90,310,615,50.4,305,457,134,323,312,1038,1003,19,/en/squads/47c64c55/Crystal-Palace-Stats
-ENG-Premier League,2425,Everton,26,37,719,425,359,264,96,331,644,51.4,313,386,134,252,331,1050,1065,25,/en/squads/d3fd31cc/Everton-Stats
-ENG-Premier League,2425,Fulham,26,37,661,403,314,258,89,282,551,51.2,269,367,106,261,291,952,885,33,/en/squads/fd962109/Fulham-Stats
-ENG-Premier League,2425,Ipswich Town,32,37,578,333,291,209,78,277,587,47.2,310,425,182,243,296,874,1076,38,/en/squads/b74092de/Ipswich-Town-Stats
-ENG-Premier League,2425,Leicester City,31,37,710,419,353,271,86,327,676,48.4,349,491,192,299,321,1031,956,30,/en/squads/a2d435b3/Leicester-City-Stats
-ENG-Premier League,2425,Liverpool,24,37,623,382,266,256,101,331,639,51.8,308,360,96,264,287,910,709,31,/en/squads/822bd0ba/Liverpool-Stats
-ENG-Premier League,2425,Manchester City,29,36,475,287,173,208,94,206,430,47.9,224,317,84,233,209,684,585,31,/en/squads/b8fd03ef/Manchester-City-Stats
-ENG-Premier League,2425,Manchester Utd,31,37,797,478,385,299,113,390,703,55.5,313,379,104,275,351,1148,740,25,/en/squads/19538871/Manchester-United-Stats
-ENG-Premier League,2425,Newcastle Utd,24,37,592,363,272,229,91,301,590,51.0,289,407,139,268,265,857,863,31,/en/squads/b2b47a98/Newcastle-United-Stats
-ENG-Premier League,2425,Nott'ham Forest,23,37,684,410,401,218,65,334,657,50.8,323,417,155,262,319,1003,1198,23,/en/squads/e4a775cb/Nottingham-Forest-Stats
-ENG-Premier League,2425,Southampton,36,37,634,369,298,262,74,273,567,48.1,294,415,190,225,299,933,952,50,/en/squads/33c895d4/Southampton-Stats
-ENG-Premier League,2425,Tottenham,31,37,648,407,276,268,104,291,582,50.0,291,437,152,285,311,959,781,40,/en/squads/361ca564/Tottenham-Hotspur-Stats
-ENG-Premier League,2425,West Ham,27,37,629,377,305,242,82,281,516,54.5,235,431,164,267,322,951,1003,27,/en/squads/7c21e445/West-Ham-United-Stats
-ENG-Premier League,2425,Wolves,31,36,758,446,397,290,71,345,636,54.2,291,426,136,290,291,1049,907,24,/en/squads/8cec06e1/Wolverhampton-Wanderers-Stats
+,league,season,team,players_used,90s,Tackles,Tackles,Tackles,Tackles,Tackles,Challenges,Challenges,Challenges,Challenges,Blocks,Blocks,Blocks,Int,Tkl+Int,Clr,Err,url
+,,,,,,Tkl,TklW,Def 3rd,Mid 3rd,Att 3rd,Tkl,Att,Tkl%,Lost,Blocks,Sh,Pass,,,,,
+0,ENG-Premier League,2425,Arsenal,25,37,580,344,218,241,121,253,494,51.2,241,319,103,216,223,803,655,32,/en/squads/18bb7c10/Arsenal-Stats
+1,ENG-Premier League,2425,Aston Villa,28,37,628,367,290,248,90,304,540,56.3,236,321,105,216,234,862,767,42,/en/squads/8602292d/Aston-Villa-Stats
+2,ENG-Premier League,2425,Bournemouth,29,36,666,385,282,285,99,292,610,47.9,318,442,134,308,339,1005,978,21,/en/squads/4ba7cbea/Bournemouth-Stats
+3,ENG-Premier League,2425,Brentford,28,37,610,367,277,217,116,301,569,52.9,268,471,195,276,279,889,1015,27,/en/squads/cd051869/Brentford-Stats
+4,ENG-Premier League,2425,Brighton,32,37,687,415,284,285,118,343,692,49.6,349,427,121,306,308,995,754,29,/en/squads/d07537b9/Brighton-and-Hove-Albion-Stats
+5,ENG-Premier League,2425,Chelsea,29,37,573,361,237,239,97,266,527,50.5,261,349,100,249,268,841,657,44,/en/squads/cff3d9bb/Chelsea-Stats
+6,ENG-Premier League,2425,Crystal Palace,29,36,726,427,353,283,90,310,615,50.4,305,457,134,323,312,1038,1003,19,/en/squads/47c64c55/Crystal-Palace-Stats
+7,ENG-Premier League,2425,Everton,26,37,719,425,359,264,96,331,644,51.4,313,386,134,252,331,1050,1065,25,/en/squads/d3fd31cc/Everton-Stats
+8,ENG-Premier League,2425,Fulham,26,37,661,403,314,258,89,282,551,51.2,269,367,106,261,291,952,885,33,/en/squads/fd962109/Fulham-Stats
+9,ENG-Premier League,2425,Ipswich Town,32,37,578,333,291,209,78,277,587,47.2,310,425,182,243,296,874,1076,38,/en/squads/b74092de/Ipswich-Town-Stats
+10,ENG-Premier League,2425,Leicester City,31,37,710,419,353,271,86,327,676,48.4,349,491,192,299,321,1031,956,30,/en/squads/a2d435b3/Leicester-City-Stats
+11,ENG-Premier League,2425,Liverpool,24,37,623,382,266,256,101,331,639,51.8,308,360,96,264,287,910,709,31,/en/squads/822bd0ba/Liverpool-Stats
+12,ENG-Premier League,2425,Manchester City,29,36,475,287,173,208,94,206,430,47.9,224,317,84,233,209,684,585,31,/en/squads/b8fd03ef/Manchester-City-Stats
+13,ENG-Premier League,2425,Manchester Utd,31,37,797,478,385,299,113,390,703,55.5,313,379,104,275,351,1148,740,25,/en/squads/19538871/Manchester-United-Stats
+14,ENG-Premier League,2425,Newcastle Utd,24,37,592,363,272,229,91,301,590,51.0,289,407,139,268,265,857,863,31,/en/squads/b2b47a98/Newcastle-United-Stats
+15,ENG-Premier League,2425,Nott'ham Forest,23,37,684,410,401,218,65,334,657,50.8,323,417,155,262,319,1003,1198,23,/en/squads/e4a775cb/Nottingham-Forest-Stats
+16,ENG-Premier League,2425,Southampton,36,37,634,369,298,262,74,273,567,48.1,294,415,190,225,299,933,952,50,/en/squads/33c895d4/Southampton-Stats
+17,ENG-Premier League,2425,Tottenham,31,37,648,407,276,268,104,291,582,50.0,291,437,152,285,311,959,781,40,/en/squads/361ca564/Tottenham-Hotspur-Stats
+18,ENG-Premier League,2425,West Ham,27,37,629,377,305,242,82,281,516,54.5,235,431,164,267,322,951,1003,27,/en/squads/7c21e445/West-Ham-United-Stats
+19,ENG-Premier League,2425,Wolves,31,36,758,446,397,290,71,345,636,54.2,291,426,136,290,291,1049,907,24,/en/squads/8cec06e1/Wolverhampton-Wanderers-Stats
