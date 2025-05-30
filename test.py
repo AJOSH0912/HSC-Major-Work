@@ -66,7 +66,10 @@ df8 = df8.reset_index()
 dfs = [df, df1, df2, df3, df4, df5, df6, df7, df8]
 for i, d in enumerate(dfs):
     d.columns = [' '.join(col).strip() if isinstance(col, tuple) else col for col in d.columns]
-    print(f"df{i} columns: {d.columns.tolist()}")  # Debug: print columns after flattening
+    # print(f"df{i} columns: {d.columns.tolist()}")  # Debug: print columns after flattening
+
+
+print(df2.columns.tolist())  # Debug: print columns of df2 to check if 'Performance Save%' exists
 
 # Use correct column names as per your CSVs and soccerdata
 # For standard: 'Performance Gls', for passing: 'Performance Ast', etc.
@@ -81,16 +84,6 @@ df7 = df7[['team', 'league', 'season', 'players_used']]
 df8 = df8[['team', 'league', 'season', 'players_used']]
 
 
-# Merge on the selected columns, always using the key columns to avoid merge errors and duplicates
-res = df.copy()
-res = res.merge(df1, on=['team', 'league', 'season', 'players_used'], how='outer')
-res = res.merge(df2, on=['team', 'league', 'season', 'players_used'], how='outer')
-res = res.merge(df3, on=['team', 'league', 'season', 'players_used'], how='outer')
-res = res.merge(df4, on=['team', 'league', 'season', 'players_used'], how='outer')
-res = res.merge(df5, on=['team', 'league', 'season', 'players_used'], how='outer')
-res = res.merge(df6, on=['team', 'league', 'season', 'players_used'], how='outer')
-res = res.merge(df7, on=['team', 'league', 'season', 'players_used'], how='outer')
-res = res.merge(df8, on=['team', 'league', 'season', 'players_used'], how='outer')
-
-# Display the full DataFrame
-print(res)
+df_combined = pd.merge(df, df1, on=['team', 'league', 'season', 'players_used'], how='left')
+df_combined = pd.merge(df_combined, df2, on=['team', 'league', 'season', 'players_used'], how='left')
+df_combined.to_csv('Combined.csv', index=False)
