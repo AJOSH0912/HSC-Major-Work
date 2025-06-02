@@ -46,34 +46,3 @@ def get_store_data(league: str) -> None:
     team_season_stats_playing_time.to_csv((league + 'playing_time.csv') , index=True)
 
 get_store_data('ENG-Premier League')
-
-
-
-# def extract_columns_to_new_csv_multi(input_files, output_filename, column_map):
-#     dfs = {}
-#     for fname, _ in input_files:
-#         df = pd.read_csv(fname, header=[0, 1])
-#         df.columns = [(str(a).strip(), str(b).strip()) for a, b in df.columns]
-#         dfs[fname] = df
-#     out = pd.DataFrame()
-#     for outcol, (fname, coltuple) in column_map.items():
-#         out[outcol] = dfs[fname][coltuple]
-#     out.to_csv(output_filename, index=False)
-
-# output_filename = 'selected_columns.csv'
-
-
-# Below is script for debugging purposes, it prints specific columns from a CSV file to ensure that the index has been reset and all values are in their proper positions so that they can be called
-
-# def print_specific_columns(filename, column_indices):
-#     with open(filename, 'r') as file:
-#         csv_reader = csv.reader(file)
-#         for row in csv_reader:
-#             selected_columns = [row[i] for i in column_indices]
-#             print(selected_columns)
-
-# filename = 'ENG-Premier Leaguestandard.csv'
-# column_indices = [0, 2]
-
-# print_specific_columns(filename, column_indices)
-
