@@ -80,3 +80,14 @@ def get_store_data(league: str) -> None:
 
 get_store_data('ENG-Premier League')
 
+mh = sd.MatchHistory(leagues="ENG-Premier League", seasons=[2425])
+
+#Read the game data
+match_history_df = mh.read_games()
+
+csv_filename = "premier_league_match_history.csv"
+
+
+match_history_df = match_history_df.drop(columns=[ 'AF', 'HF', 'HY', 'AY', 'referee', 'BFH','BFD','BFA','1XBH','1XBD','1XBA','BFEH','BFED','BFEA','BFE>2.5','BFE<2.5','BFEAHH','BFEAHA','BFCH','BFCA','1XBCH','1XBCD','1XBCA','BFECH','BFECD','BFECA','BFEC>2.5','BFEC<2.5','BFECAHH','BFECAHA','BFCD'])  # Drop unnecessary columns
+match_history_df.to_csv(csv_filename, index=False)
+
