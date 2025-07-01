@@ -151,6 +151,12 @@ df_2024 = load_selected_columns("data/Premier_League_2024.csv")
 
 merge_df = union_all([df_2004,df_2005,df_2006, df_2007,df_2008, df_2009, df_2010,df_2011,df_2012,df_2013,df_2014,df_2015,df_2016,df_2017,df_2018,df_2019,df_2020,df_2021,df_2022,df_2023,df_2024])
 
+merge_df.insert(0, 'match_id', range(1, len(merge_df) + 1)) #Adds match_id for later uses
+
+merge_df['FTR'] = merge_df['FTR'].map({'H': 1, 'D': 2, 'A': 3}) #Maps the FTR column to numerical values
+
+merge_df.dropna(inplace=True)  # Drops any rows with empty values in the merged data
+
 merge_df.to_csv('data/merged_data2.csv',index=False)
 
 print("Data Merged Successfully!")
