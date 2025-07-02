@@ -1,0 +1,118 @@
+import pandas as pd
+import soccerdata as sd
+
+#
+fbref = sd.FBref(leagues="ENG-Premier League", seasons=2425) 
+
+# Read player season stats for different stat types
+df1 = fbref.read_player_season_stats(stat_type="standard")
+df2 = fbref.read_player_season_stats(stat_type="passing")
+df3 = fbref.read_player_season_stats(stat_type="shooting")
+df4 = fbref.read_player_season_stats(stat_type="defense")
+df5 = fbref.read_player_season_stats(stat_type="possession")
+df6 = fbref.read_player_season_stats(stat_type="keeper")
+df1 = df1.reset_index()  # Resetting the index so that 'player' , 'league' and 'season' are put back into the heading and out of the data columns
+df2 = df2.reset_index()
+df3 = df3.reset_index()
+df4 = df4.reset_index()
+df5 = df5.reset_index()
+df6 = df6.reset_index()
+
+# Flatten multi-index columns if present for all DataFrames
+# This is necessary to ensure that the column headings can be one row and can be called on
+dfs = [df1, df2, df3, df4, df5, df6]
+for i, d in enumerate(dfs):
+    d.columns = [' '.join(col).strip() if isinstance(col, tuple) else col for col in d.columns] #Combines both rows of the heading so that it is all 1 row and can be called on
+
+# Select essential columns from each DataFrame
+df1_selected = df1[['player', 'team', 'Playing Time MP', 'Playing Time Starts', 'Playing Time Min', 'Performance Gls', 'Performance Ast', 'Performance PK', 'Performance CrdY', 'Performance CrdR']]
+
+# Passing stats
+df2_selected = df2[['player', 'team', 'Total Cmp', 'Total Cmp%', 'Short Cmp', 'Short Cmp%', 'Medium Cmp', 'Medium Cmp%', 'Long Cmp', 'Long Cmp%']]
+
+# Shooting stats  
+df3_selected = df3[['player', 'team', 'Standard Sh', 'Standard SoT', 'Standard SoT%', 'Standard SoT/90', 'Standard G/Sh', 'Standard FK']]
+
+# Defense stats
+df4_selected = df4[['player', 'team', 'Tackles Tkl', 'Tackles TklW', 'Int', 'Blocks Sh', 'Clr']]
+
+# Possession stats
+df5_selected = df5[['player', 'team', 'Touches Touches', 'Touches Def 3rd', 'Touches Mid 3rd' , 'Touches Att 3rd', 'Carries Carries', 'Take-Ons Succ', 'Take-Ons Succ%']]
+
+# Keeper stats (for goalkeepers only)
+df6_selected = df6[['player', 'team', 'Performance Saves', 'Performance Save%', 'Penalty Kicks PKsv', 'Penalty Kicks Save%']]
+
+# Merge all selected dataframes
+df_combined = df1_selected.merge(df2_selected, on=['player', 'team'], how='outer', suffixes=('', '_pass'))
+df_combined = df_combined.merge(df3_selected, on=['player', 'team'], how='outer')
+df_combined = df_combined.merge(df4_selected, on=['player', 'team'], how='outer')
+df_combined = df_combined.merge(df5_selected, on=['player', 'team'], how='outer')
+df_combined = df_combined.merge(df6_selected, on=['player', 'team'], how='outer')
+
+# Remove duplicate assists column
+df_combined = df_combined.drop(columns=['assists_pass'], errors='ignore')
+
+
+def get_player_stats(df):
+
+    player_stats = df.copy()
+    player_stats['player'] = player_stats['player']
+    player_stats['team'] = player_stats['team']
+    player_stats['Matches Played'] = player_stats['Playing Time MP']
+    player_stats['Goals'] = player_stats['Performance Gls']
+    player_stats['Assists'] = player_stats['Performance Ast']
+    player_stats['Shots'] = player_stats['Standard Sh']
+    player_stats['Shots on Target'] = player_stats['Standard SoT']
+    player_stats['Passes Completed'] = player_stats['Total Cmp']
+    player_stats['Pass Completion %'] = player_stats['Total Cmp%']
+    player_stats['Tackles'] = player_stats['Tackles Tkl']
+    player_stats['Tackles Won'] = player_stats['Tackles TklW']
+    player_stats['Interceptions'] = player_stats['Int']
+    player_stats['Shots Blocked'] = player_stats['Blocks Sh']
+    player_stats['Clearances'] = player_stats['Clr']
+    player_stats['Touches'] = player_stats['Touches Touches']
+    player_stats['Defensive Touches'] = player_stats['Touches Def 3rd']
+    player_stats['Midfield Touches'] = player_stats['Touches Mid 3rd']
+    player_stats['Attacking Touches'] = player_stats['Touches Att 3rd']
+    player_stats['Successful Take-Ons'] = player_stats['Take-Ons Succ']
+    player_stats['Successful Take-On %'] = player_stats['Take-Ons Succ%']
+    player_stats['Saves'] = player_stats['Performance Saves']
+    player_stats['Save %'] = player_stats['Performance Save%']
+    player_stats['Penalty Kicks Saved'] = player_stats['Penalty Kicks PKsv']
+    player_stats['Penalty Kick Save %'] = player_stats['Penalty Kicks Save%']
+    player_stats['Minutes Played'] = player_stats['Playing Time Min']
+    player_stats['Starts'] = player_stats['Playing Time Starts']
+    player_stats['Yellow Cards'] = player_stats['Performance CrdY']
+    player_stats['Red Cards'] = player_stats['Performance CrdR']
+    player_stats['Short Passes Completed'] = player_stats['Short Cmp']
+    player_stats['Short Pass Completion %'] = player_stats['Short Cmp%']
+    player_stats['Medium Passes Completed'] = player_stats['Medium Cmp']
+    player_stats['Medium Pass Completion %'] = player_stats['Medium Cmp%']
+    player_stats['Long Passes Completed'] = player_stats['Long Cmp']
+    player_stats['Long Pass Completion %'] = player_stats['Long Cmp%']
+    player_stats['Shots on Target %'] = player_stats['Standard SoT%']
+    player_stats['Shots per 90'] = player_stats['Standard SoT/90']
+    player_stats['Goals per Shot'] = player_stats['Standard G/Sh']
+    player_stats['Free Kicks Taken'] = player_stats['Standard FK']
+    player_stats['Carries'] = player_stats['Carries Carries']
+    player_stats['Penalties Made'] = player_stats['Performance PK']
+
+    columns = [
+        'player', 'team', 'Matches Played', 'Goals', 'Assists', 'Shots', 'Shots on Target',
+        'Passes Completed', 'Pass Completion %', 'Tackles', 'Tackles Won', 'Interceptions',
+        'Shots Blocked', 'Clearances', 'Touches', 'Defensive Touches', 'Midfield Touches',
+        'Attacking Touches', 'Successful Take-Ons', 'Successful Take-On %', 'Saves',
+        'Save %', 'Penalty Kicks Saved', 'Penalty Kick Save %', 'Minutes Played',
+        'Starts', 'Yellow Cards', 'Red Cards', 'Short Passes Completed',
+        'Short Pass Completion %', 'Medium Passes Completed', 'Medium Pass Completion %',
+        'Long Passes Completed', 'Long Pass Completion %', 'Shots on Target %',
+        'Shots per 90', 'Goals per Shot', 'Free Kicks Taken', 
+        'Carries', 'Penalties Made'
+    ]
+
+    return player_stats[columns]
+
+final_player_stats = get_player_stats(df_combined)
+
+# Save to CSV
+final_player_stats.to_csv('data/Final_Player_Stats.csv', index=False)

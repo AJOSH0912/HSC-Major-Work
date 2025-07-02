@@ -3,14 +3,18 @@ import pandas as pd
 import joblib
 import numpy as np
 
+
+data = pd.read_csv('data/Final_Data.csv')  # Reads the CSV file with the match information
+data = data.dropna(subset=['FTR'])
+team_stats = pd.read_csv('data/Combined.csv')  # Reads the CSV file with the team statistics
+player_stats = pd.read_csv('data/Final_Player_Stats.csv')  # Reads the CSV file with the player statistics
+
 # Load model and metadata
 model = joblib.load('joblib/rf_model.joblib')
 model_columns = joblib.load('joblib/model_columns.joblib')
-teams = joblib.load('joblib/teams.joblib')
+teams = team_stats['team'].unique().tolist()  # Get unique teams from the team stats DataFrame
 
-# Load your original data once for efficiency
-data = pd.read_csv('data/Final_Data.csv')  # Reads the CSV file with the match information
-data = data.dropna(subset=['FTR'])
+
 
 def get_prediction_rows(home_team, away_team):
 
@@ -58,7 +62,8 @@ def get_prediction_rows(home_team, away_team):
 
     return pd.DataFrame([np.concatenate((home_row, away_row))], columns=home_team_columns + away_team_columns)
 
-
+prediction_row = get_prediction_rows('Arsenal', 'Man City')
+prediction_row.to_csv()
 
 # Function to predict match outcome
 def predict(home_team, away_team):
@@ -79,8 +84,58 @@ def predict(home_team, away_team):
 
 
 
+
+def view_team_stats(team, selected_columns):
+    if team not in teams:
+        return pd.DataFrame({"Message": ["Invalid team selection. Please select from the available teams."]})
+    
+    team_data = team_stats[team_stats['team'] == team]
+    if team_data.empty:
+        return pd.DataFrame({"Message": [f"No data available for {team}."]})
+    
+    available_columns = [col for col in selected_columns if col in team_data.columns]
+    if not available_columns:
+        return pd.DataFrame({"Message": ["No valid columns selected."]})
+    
+    # Include team column and selected columns
+    columns_to_show = ['team'] + available_columns
+    filtered_data = team_data[columns_to_show]
+    
+    return filtered_data
+
+available_stat_columns = [col for col in team_stats.columns if col != 'team']
+
+
+
+
+def view_player_stats(player_name, selected_columns):
+
+    player_exists = player_stats['player'].str.lower().str.contains(player_name.lower(), na=False).any()
+    
+    if not player_exists:
+        return pd.DataFrame({"Message": ["Invalid player selection. Please choose a current premier league player."]})
+    
+    
+    player_data = player_stats[player_stats['player'].str.lower().str.contains(player_name.lower(), na=False)]
+    
+    available_columns = [col for col in selected_columns if col in player_data.columns]
+    if not available_columns:
+        return pd.DataFrame({"Message": ["No valid columns selected."]})
+    
+    columns_to_show = ['player', 'team'] + available_columns
+    player_data = player_data[columns_to_show]
+    
+    if player_data.empty:
+        return pd.DataFrame({"Message": ["Please enter a player name."]})
+    
+    
+    return player_data
+
+available_player_columns = [col for col in player_stats.columns if col not in ['player', 'team']]
+
+
 # Use the main predict function
-gr.Interface(
+prediction_interface = gr.Interface(
     fn=predict,  # Change to predict_simple if main function doesn't work
     inputs=[
         gr.Dropdown(teams, label="Home Team"),
@@ -90,4 +145,44 @@ gr.Interface(
     title="Premier League Match Outcome Predictor",
     description="Select two teams to predict the match outcome.",
     theme=gr.themes.Soft()
-).launch()
+)
+
+
+team_stats_interface = gr.Interface(
+    fn=view_team_stats,
+    inputs=[
+        gr.Dropdown(teams, label="Select Team"),
+        gr.CheckboxGroup(
+            choices = available_stat_columns,
+            label="Select Statistics",
+            value = available_stat_columns[:5],
+        )],
+    outputs=gr.Dataframe(label="Team Statistics"),
+    title="Team Statistics Viewer",
+    description="Select a team to view its statistics.",
+    theme=gr.themes.Soft()
+)
+
+player_stats_interface = gr.Interface(
+    fn=view_player_stats,
+    inputs=[
+        gr.Textbox(label="Enter Player Name", placeholder="e.g., 'Chris Wood'"),
+        gr.CheckboxGroup(
+            choices=available_player_columns, 
+            label="Select Statistics",
+            value=available_player_columns[:5],  
+        )
+    ],
+    outputs=gr.Dataframe(label="Player Statistics"),
+    title="Player Statistics Viewer",
+    description="Enter a player's name to view their statistics.",
+    theme=gr.themes.Soft()
+)
+
+UI = gr.TabbedInterface(
+    [prediction_interface, team_stats_interface, player_stats_interface],
+    tab_names=["Match Outcome Prediction", "Team Seasonal Statistics" , "Player Statistics Viewer"],
+    title="Premier League Match Prediction and Statistics Viewer",
+)
+
+UI.launch()
