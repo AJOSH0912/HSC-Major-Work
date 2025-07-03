@@ -4,9 +4,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report, accuracy_score
 import joblib
+import helper as hp  # Importing the helper module for encryption and decryption functions
 
-data = pd.read_csv('data/Final_Data.csv') #Reads the CSV file with the match information
-
+data=hp.decrypt_csv_file('data/Final_Data.csv.encrypted', 'app.key') # Decrypts the CSV file containing the match data
 
 
 X = data.drop(['FTR', 'date' , 'match_id'], axis=1) #Features are plotted on the X axis

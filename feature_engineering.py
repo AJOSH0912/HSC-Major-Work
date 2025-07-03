@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
 import os
+import helper as hp # Importing the helper module for encryption and decryption functions
 
-merged_data2 = pd.read_csv('data/merged_data2.csv') #Reads the CSV file with the match information
+merged_data2 = pd.read_csv('data/raw_merged_data.csv') #Reads the CSV file with the match information
 
 
 "The below first removes any rows with emtpy values becasue teh model will not be able to handle them"
@@ -122,7 +123,7 @@ avg_last10_columns = [
     'Average_WH_odds_against_last10']
 
 team_stats = team_stats.sort_values(['team', 'date']) # Sorts the team stats by team and date to ensure the last 10 matches are correctly calculated
-#team_stats.to_csv('data/team_stats.csv', index=False) # Saves the sorted team stats to a CSV file
+#team_stats.to_csv('data/temp/team_stats.csv', index=False) # Saves the sorted team stats to a CSV file
 
 #Calclates the rolling average for the last 10 matches for each team by taking all the columns 4th and onward and 
 # calculating the rolling average for each team with a window of 10 matches, shifting by 1 to avoid including the current match in the average
@@ -139,7 +140,7 @@ team_stats
 rolling_average_last10.columns = avg_last10_columns # Renames the columns to the average last 10 matches columns
 rolling_average_last10.drop(columns=['Average_FullTimeResult_last10'], inplace=True) # Drops the FullTimeResult column as it is not needed for the rolling average
 rolling_average_last10 = pd.concat([team_stats[['team', 'date', 'match_id' , 'home_away']], rolling_average_last10], axis=1) # Combines the team, date, home_away columns with the rolling average columns
-rolling_average_last10.to_csv('data/rolling_average_last10.csv', index=False) # Saves the rolling average last 10 matches to a CSV file
+#rolling_average_last10.to_csv('data/temp/rolling_average_last10.csv', index=False) # Saves the rolling average last 10 matches to a CSV file
 
 
 
@@ -176,7 +177,7 @@ rolling_average_last5_home = (
 rolling_average_last5_home.columns = avg_last5_home_columns # Renames the columns to the average last 5 matches columns
 rolling_average_last5_home.drop(columns=['Average_FullTimeResult_last5'], inplace=True) # Drops the FullTimeResult column as it is not needed for the rolling average
 rolling_average_last5_home = pd.concat([home_matches[['team', 'date', 'match_id']], rolling_average_last5_home], axis=1) # Combines the team and date columns with the rolling average columns
-# rolling_average_last5_home.to_csv('data/rolling_average_last5_home.csv', index=False) # Saves the rolling average last 5 home matches to a CSV file
+# rolling_average_last5_home.to_csv('data/temp/rolling_average_last5_home.csv', index=False) # Saves the rolling average last 5 home matches to a CSV file
 
 
 
@@ -208,7 +209,7 @@ rolling_average_last5_away = (
 rolling_average_last5_away.columns = avg_last5_away_columns # Renames the columns to the average last 5 matches columns
 rolling_average_last5_away.drop(columns=['Average_FullTimeResult_last5'], inplace=True) # Drops the FullTimeResult column as it is not needed for the rolling average
 rolling_average_last5_away = pd.concat([away_matches[['team', 'date', 'match_id']], rolling_average_last5_away], axis=1) # Combines the team and date columns with the rolling average columns
-#rolling_average_last5_away.to_csv('data/rolling_average_last5_away.csv', index=False) # Saves the rolling average last 5 away matches to a CSV file 
+#rolling_average_last5_away.to_csv('data/temp/rolling_average_last5_away.csv', index=False) # Saves the rolling average last 5 away matches to a CSV file 
 
 # Renames the columns to include team_1_ for the away team for when we merge later
 rolling_average_last5_home.columns = rolling_average_last5_home.columns[:3].tolist() + ['team_1_'+str(col) for col in rolling_average_last5_home.columns[3:]] 
@@ -219,7 +220,7 @@ rolling_average_last5_away.columns = rolling_average_last5_away.columns[:3].toli
 # Merges the last 5 home and away matches dataframes on team, date and match_id
 Last5_Home_Away = pd.merge( rolling_average_last5_home, rolling_average_last5_away, on=['match_id' , 'date'], how='left') 
 
-# Last5_Home_Away.to_csv('data/Last5_Home_Away.csv', index=False) # Saves the last 5 home and away matches to a CSV file
+# Last5_Home_Away.to_csv('data/temp/Last5_Home_Away.csv', index=False) # Saves the last 5 home and away matches to a CSV file
 
 # Creates a copy of the rolling average last 10 matches for home teams so that we can put them side to side again with pd merge
 home_team = rolling_average_last10[rolling_average_last10['home_away'] == 'H'].copy() 
@@ -239,9 +240,10 @@ Last5_Home_Away = Last5_Home_Away.dropna().reset_index(drop=True) # Drops any ro
 
 # Merges the last 5 home and away matches with the last 10 home and away matches on team, date and match_id giving us our almost finished dataset
 Combined_data = pd.merge(Last5_Home_Away, last10_stats, on=['match_id', 'date'], how='left') 
-Combined_data.to_csv('data/Combined_data.csv', index=False) # Saves the final data to a CSV file
+#Combined_data.to_csv('data/Combined_data.csv', index=False) # Saves the final data to a CSV file
 
 # Merges the combined data with the original merged data to get the FullTimeResult column since it is our target variable
 Final_data = pd.merge(Combined_data, merged_data2[['date', 'match_id', 'FTR']], on=['match_id', 'date'], how='left') # Merges the final data with the team stats to get the FullTimeResult column
 
-# Final_data.to_csv('data/Final_data.csv', index=False) # Saves the final data with the FullTimeResult column to a CSV file
+Final_data.to_csv('data/Final_data.csv', index=False) # Saves the final data with the FullTimeResult column to a CSV file
+hp.encrypt_file('data/Final_data.csv', 'app.key')

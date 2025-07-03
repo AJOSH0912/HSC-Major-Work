@@ -1,5 +1,6 @@
 import pandas as pd
 import soccerdata as sd
+import helper as hp
 
 #
 fbref = sd.FBref(leagues="ENG-Premier League", seasons=2425) 
@@ -25,19 +26,23 @@ for i, d in enumerate(dfs):
     d.columns = [' '.join(col).strip() if isinstance(col, tuple) else col for col in d.columns] #Combines both rows of the heading so that it is all 1 row and can be called on
 
 # Select essential columns from each DataFrame
-df1_selected = df1[['player', 'team', 'Playing Time MP', 'Playing Time Starts', 'Playing Time Min', 'Performance Gls', 'Performance Ast', 'Performance PK', 'Performance CrdY', 'Performance CrdR']]
+df1_selected = df1[['player', 'team', 'Playing Time MP', 'Playing Time Starts', 'Playing Time Min', 'Performance Gls', 
+                    'Performance Ast', 'Performance PK', 'Performance CrdY', 'Performance CrdR']]
 
 # Passing stats
-df2_selected = df2[['player', 'team', 'Total Cmp', 'Total Cmp%', 'Short Cmp', 'Short Cmp%', 'Medium Cmp', 'Medium Cmp%', 'Long Cmp', 'Long Cmp%']]
+df2_selected = df2[['player', 'team', 'Total Cmp', 'Total Cmp%', 'Short Cmp', 'Short Cmp%',
+                    'Medium Cmp', 'Medium Cmp%', 'Long Cmp', 'Long Cmp%']]
 
 # Shooting stats  
-df3_selected = df3[['player', 'team', 'Standard Sh', 'Standard SoT', 'Standard SoT%', 'Standard SoT/90', 'Standard G/Sh', 'Standard FK']]
+df3_selected = df3[['player', 'team', 'Standard Sh', 'Standard SoT', 'Standard SoT%', 
+                    'Standard SoT/90', 'Standard G/Sh', 'Standard FK']]
 
 # Defense stats
 df4_selected = df4[['player', 'team', 'Tackles Tkl', 'Tackles TklW', 'Int', 'Blocks Sh', 'Clr']]
 
 # Possession stats
-df5_selected = df5[['player', 'team', 'Touches Touches', 'Touches Def 3rd', 'Touches Mid 3rd' , 'Touches Att 3rd', 'Carries Carries', 'Take-Ons Succ', 'Take-Ons Succ%']]
+df5_selected = df5[['player', 'team', 'Touches Touches', 'Touches Def 3rd', 'Touches Mid 3rd' , 'Touches Att 3rd', 
+                    'Carries Carries', 'Take-Ons Succ', 'Take-Ons Succ%']]
 
 # Keeper stats (for goalkeepers only)
 df6_selected = df6[['player', 'team', 'Performance Saves', 'Performance Save%', 'Penalty Kicks PKsv', 'Penalty Kicks Save%']]
@@ -52,13 +57,13 @@ df_combined = df_combined.merge(df6_selected, on=['player', 'team'], how='outer'
 # Remove duplicate assists column
 df_combined = df_combined.drop(columns=['assists_pass'], errors='ignore')
 
-
+# Function to reformat the headings for easier readability for users when choosing their columns
 def get_player_stats(df):
 
     player_stats = df.copy()
     player_stats['player'] = player_stats['player']
     player_stats['team'] = player_stats['team']
-    player_stats['Matches Played'] = player_stats['Playing Time MP']
+    player_stats['Matches Played'] = player_stats['Playing Time MP'] #Renames from 'Playing Time MP' to 'Matches Played'
     player_stats['Goals'] = player_stats['Performance Gls']
     player_stats['Assists'] = player_stats['Performance Ast']
     player_stats['Shots'] = player_stats['Standard Sh']
@@ -97,6 +102,7 @@ def get_player_stats(df):
     player_stats['Carries'] = player_stats['Carries Carries']
     player_stats['Penalties Made'] = player_stats['Performance PK']
 
+    # Define the columns to keep in the final DataFrame
     columns = [
         'player', 'team', 'Matches Played', 'Goals', 'Assists', 'Shots', 'Shots on Target',
         'Passes Completed', 'Pass Completion %', 'Tackles', 'Tackles Won', 'Interceptions',
@@ -114,5 +120,6 @@ def get_player_stats(df):
 
 final_player_stats = get_player_stats(df_combined)
 
-# Save to CSV
-final_player_stats.to_csv('data/Final_Player_Stats.csv', index=False)
+final_player_stats.to_csv('data/Final_Player_Stats.csv', index=False) 
+
+hp.encrypt_file('data/Final_Player_Stats.csv', 'app.key')  # Encrypt the file before saving

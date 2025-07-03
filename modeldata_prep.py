@@ -1,10 +1,7 @@
 import pandas as pd
 import soccerdata as sd
 
-mh = sd.MatchHistory(leagues="ENG-Premier League", seasons=2000)
-mh1 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2001)
-mh2 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2002)
-mh3 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2003)
+
 mh4 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2004)
 mh5 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2005)
 mh6 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2006)
@@ -27,11 +24,7 @@ mh22 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2022)
 mh23 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2023)
 mh24 = sd.MatchHistory(leagues="ENG-Premier League", seasons=2024)
 
-hist = mh.read_games()
-hist.head()
-hist1 = mh1.read_games()
-hist2 = mh2.read_games()
-hist3 = mh3.read_games()
+
 hist4 = mh4.read_games()
 hist5 = mh5.read_games()
 hist6 = mh6.read_games()
@@ -54,31 +47,28 @@ hist22 = mh22.read_games()
 hist23 = mh23.read_games()
 hist24 = mh24.read_games()
 
-hist.to_csv('data/Premier_League_2000.csv', index=False)
-hist1.to_csv('data/Premier_League_2001.csv', index=False)
-hist2.to_csv('data/Premier_League_2002.csv', index=False)
-hist3.to_csv('data/Premier_League_2003.csv', index=False)
-hist4.to_csv('data/Premier_League_2004.csv', index=False)
-hist5.to_csv('data/Premier_League_2005.csv', index=False)
-hist6.to_csv('data/Premier_League_2006.csv', index=False)
-hist7.to_csv('data/Premier_League_2007.csv', index=False)
-hist8.to_csv('data/Premier_League_2008.csv', index=False)
-hist9.to_csv('data/Premier_League_2009.csv', index=False)
-hist10.to_csv('data/Premier_League_2010.csv', index=False)
-hist11.to_csv('data/Premier_League_2011.csv', index=False)
-hist12.to_csv('data/Premier_League_2012.csv', index=False)
-hist13.to_csv('data/Premier_League_2013.csv', index=False)
-hist14.to_csv('data/Premier_League_2014.csv', index=False)
-hist15.to_csv('data/Premier_League_2015.csv', index=False)
-hist16.to_csv('data/Premier_League_2016.csv', index=False)
-hist17.to_csv('data/Premier_League_2017.csv', index=False)
-hist18.to_csv('data/Premier_League_2018.csv', index=False)
-hist19.to_csv('data/Premier_League_2019.csv', index=False)
-hist20.to_csv('data/Premier_League_2020.csv', index=False)
-hist21.to_csv('data/Premier_League_2021.csv', index=False)
-hist22.to_csv('data/Premier_League_2022.csv', index=False)
-hist23.to_csv('data/Premier_League_2023.csv', index=False)
-hist24.to_csv('data/Premier_League_2024.csv', index=False)
+
+# hist4.to_csv('data/Premier_League_2004.csv', index=False)
+# hist5.to_csv('data/Premier_League_2005.csv', index=False)
+# hist6.to_csv('data/Premier_League_2006.csv', index=False)
+# hist7.to_csv('data/Premier_League_2007.csv', index=False)
+# hist8.to_csv('data/Premier_League_2008.csv', index=False)
+# hist9.to_csv('data/Premier_League_2009.csv', index=False)
+# hist10.to_csv('data/Premier_League_2010.csv', index=False)
+# hist11.to_csv('data/Premier_League_2011.csv', index=False)
+# hist12.to_csv('data/Premier_League_2012.csv', index=False)
+# hist13.to_csv('data/Premier_League_2013.csv', index=False)
+# hist14.to_csv('data/Premier_League_2014.csv', index=False)
+# hist15.to_csv('data/Premier_League_2015.csv', index=False)
+# hist16.to_csv('data/Premier_League_2016.csv', index=False)
+# hist17.to_csv('data/Premier_League_2017.csv', index=False)
+# hist18.to_csv('data/Premier_League_2018.csv', index=False)
+# hist19.to_csv('data/Premier_League_2019.csv', index=False)
+# hist20.to_csv('data/Premier_League_2020.csv', index=False)
+# hist21.to_csv('data/Premier_League_2021.csv', index=False)
+# hist22.to_csv('data/Premier_League_2022.csv', index=False)
+# hist23.to_csv('data/Premier_League_2023.csv', index=False)
+# hist24.to_csv('data/Premier_League_2024.csv', index=False)
 
 
 
@@ -149,7 +139,9 @@ df_2024 = load_selected_columns("data/Premier_League_2024.csv")
 
 
 
-merge_df = union_all([df_2004,df_2005,df_2006, df_2007,df_2008, df_2009, df_2010,df_2011,df_2012,df_2013,df_2014,df_2015,df_2016,df_2017,df_2018,df_2019,df_2020,df_2021,df_2022,df_2023,df_2024])
+merge_df = union_all([df_2004,df_2005,df_2006, df_2007,df_2008, df_2009, df_2010,
+                    df_2011,df_2012,df_2013,df_2014,df_2015,df_2016,df_2017,df_2018,
+                    df_2019,df_2020,df_2021,df_2022,df_2023,df_2024])
 
 merge_df.insert(0, 'match_id', range(1, len(merge_df) + 1)) #Adds match_id for later uses
 
@@ -157,6 +149,6 @@ merge_df['FTR'] = merge_df['FTR'].map({'H': 1, 'D': 2, 'A': 3}) #Maps the FTR co
 
 merge_df.dropna(inplace=True)  # Drops any rows with empty values in the merged data
 
-merge_df.to_csv('data/merged_data2.csv',index=False)
+merge_df.to_csv('data/raw_merged_data.csv',index=False)
 
 print("Data Merged Successfully!")

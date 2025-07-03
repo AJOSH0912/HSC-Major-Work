@@ -2,6 +2,7 @@ import soccerdata as sd
 import pandas as pd
 import os
 import csv
+import helper as hp
 
 def update_team_name_df(df) -> pd.DataFrame:
     df_copy = df.copy()  # Work on a copy to avoid modifying original
@@ -72,10 +73,9 @@ def get_store_data(league: str) -> pd.DataFrame:
     dfs = [df, df1, df2, df3, df4, df5, df6, df7, df8]
     for i, d in enumerate(dfs):
         d.columns = [' '.join(col).strip() if isinstance(col, tuple) else col for col in d.columns] #Combines both rows of the heading so that it is all 1 row and can be called on
-        # print(f"df{i} columns: {d.columns.tolist()}")  # Debuging purposes
 
-
-    df = df[['team', 'league', 'season', 'Performance Gls' , "Poss" , "Expected xAG" , "Expected xG" , "Per 90 Minutes G+A"]]
+    #The folowing takes the column stats we want for the dataframe
+    df = df[['team', 'league', 'season', 'Performance Gls' , "Poss" , "Expected xAG" , "Expected xG" , "Per 90 Minutes G+A"]] 
     df1 = df1[['team', 'league', 'season', 'Ast' , 'PPA']]
     df2 = df2[['team', 'league', 'season', 'Performance Save%', 'Performance W', 'Performance L']]
     df3 = df3[['team', 'league', 'season']]
@@ -101,6 +101,7 @@ def get_store_data(league: str) -> pd.DataFrame:
 
     return df_combined  # Returns the combined DataFrame with all the relevant data
 
+#Renames the columns in the combined DataFrame to make them more readable and easier to understand for the user when choosing which stats to view
 def get_season_stats(df):
     
     Seasonal_Stats = df.copy()  # Creates a copy of the combined DataFrame to avoid modifying the original data
@@ -126,6 +127,7 @@ def get_season_stats(df):
     Seasonal_Stats['Average_Points_Per_Match'] = Seasonal_Stats['Team Success PPM']
     Seasonal_Stats['Goal_Difference'] = Seasonal_Stats['Team Success +/-']
     
+    # Chooeses the columns to keep in the seasonal stats DataFrame
     columns = [
         'team', 'Goals_This_Season', 'Possession_This_Season(%)', 'Expected_Assisted_Goals(%)',
         'Likelyhood_Of_Shot_Scoring', 'Goals_and_Assists_Per_90_Minutes', 'Assists_This_Season',
@@ -141,5 +143,5 @@ def get_season_stats(df):
 df_combined = get_store_data('ENG-Premier League')  # Calls the function to get the combined data for the Premier League
 Seasonal_stats = get_season_stats(df_combined)  # Calls the function to get the seasonal stats from the combined data
 
-Seasonal_stats.to_csv('data/Combined.csv', index=False) #Turns the data into a csv file so that it can be viewed
-
+Seasonal_stats.to_csv('data/final_team_stats.csv', index=False) 
+hp.encrypt_file('data/final_team_stats.csv', 'app.key') # Encrypts the final team stats CSV file for security
